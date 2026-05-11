@@ -1,14 +1,28 @@
-import { Request, Response } from 'express';
-import User from '../projet.modele/projet.User'; // Imagine que ton modèle s'appelle User
+import express from 'express';
+import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
 
-// Simulation d'un stockage temporaire (en mémoire)
+
+
 let lastUnknownBadge: string | null = null;
 
 export const projetController = {
 
-    // Route : POST /api/assign-card
-    // But : Créer un utilisateur en prenant le dernier badge scanné
-    assignCard: async (req: Request, res: Response) => {
+    
+    scanBadge: async (req: express.Request, res: express.Response) => {
+        const { cardId } = req.body;
+        
+        if (!cardId) {
+            return res.status(400).json({ message: "cardId manquant dans le body" });
+        }
+
+        console.log(`📡 Nouveau badge détecté par l'appareil : ${cardId}`);
+        lastUnknownBadge = cardId; // On le stocke pour le frontend
+        
+        res.status(200).json({ message: "Badge reçu et mis en attente", cardId });
+    },
+
+   
+    assignCard: async (req: express.Request, res: express.Response) => {
         const { username } = req.body;
 
         if (!lastUnknownBadge) {
@@ -18,19 +32,20 @@ export const projetController = {
         try {
             const newUser = await User.create({
                 username: username,
-                cardId: lastUnknownBadge // On utilise le badge stocké
+                cardId: lastUnknownBadge 
             });
 
-            lastUnknownBadge = null; // On vide la variable après utilisation
+            console.log(`✅ Utilisateur ${username} créé avec le badge ${lastUnknownBadge}`);
+            lastUnknownBadge = null; // On vide pour le prochain
+            
             res.status(201).json({ message: "Utilisateur créé avec succès", user: newUser });
         } catch (error) {
             res.status(500).json({ message: "Erreur lors de la création de l'utilisateur." });
         }
     },
 
-    // Route : GET /api/users
-    // But : Récupérer tous les utilisateurs
-    getAllUsers: async (req: Request, res: Response) => {
+    
+    getAllUsers: async (req: express.Request, res: express.Response) => {
         try {
             const users = await User.findAll();
             res.status(200).json(users);
@@ -39,9 +54,8 @@ export const projetController = {
         }
     },
 
-    // Route : DELETE /api/users/:id
-    // But : Supprimer un utilisateur par son ID
-    deleteUser: async (req: Request, res: Response) => {
+    
+    deleteUser: async (req: express.Request, res: express.Response) => {
         const { id } = req.params;
         try {
             await User.destroy({ where: { id } });
@@ -51,9 +65,8 @@ export const projetController = {
         }
     },
 
-    // Route : GET /api/present
-    // But : À brancher plus tard (placeholder pour l'instant)
-    getPresent: async (req: Request, res: Response) => {
+   
+    getPresent: async (req: express.Request, res: express.Response) => {
         res.status(200).json({ message: "Route prête pour le futur check de présence" });
     }
 };
