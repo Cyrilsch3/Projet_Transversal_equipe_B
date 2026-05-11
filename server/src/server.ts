@@ -1,6 +1,7 @@
 import express from 'express';
 import sequelize from './config/db.ts';
 import userRoutes from './projet.routes/routes.ts';
+import './config/mqtt.js'; 
 
 const app = express();
 app.use(express.json());

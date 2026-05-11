@@ -1,26 +1,21 @@
 import express from 'express';
 import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
+import mqttClient from '../config/mqtt.js';
 
-
+mqttClient.on('message', (topic, message) => {
+    if (topic === 'ephec/equipeB/badge') {
+        const cardId = message.toString();
+        console.log(`📡 [MQTT] Badge capté : ${cardId}`);
+        lastUnknownBadge = cardId;
+    }
+});
 
 let lastUnknownBadge: string | null = null;
 
 export const projetController = {
 
     
-    scanBadge: async (req: express.Request, res: express.Response) => {
-        const { cardId } = req.body;
-        
-        if (!cardId) {
-            return res.status(400).json({ message: "cardId manquant dans le body" });
-        }
-
-        console.log(`📡 Nouveau badge détecté par l'appareil : ${cardId}`);
-        lastUnknownBadge = cardId; // On le stocke pour le frontend
-        
-        res.status(200).json({ message: "Badge reçu et mis en attente", cardId });
-    },
-
+   
    
     assignCard: async (req: express.Request, res: express.Response) => {
         const { username } = req.body;
