@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # 1. Rverse Proxy (Nginx) - Gère le trafic entrant et le HTTPS
+  reverse-proxy:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "80:80"
+      - "443:443" # Pour le HTTPS
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro # Pour les certificats SSL
+    depends_on:
+      - web-backend
+    networks:
+      - iot_network
+
+  # 2. Broker MQTT (Mosquitto) - Pour l'électronique
+  mqtt-broker:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto_broker
+    ports:
+      - "1883:1883" # Port MQTT standard
+      - "9001:9001" # Port WebSockets (utile pour le frontend Web)
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+    networks:
+      - iot_network
+
+  # 3. Base de données (ex: PostgreSQL) - Pour le Web (TODO: Remplacer par Sqlite) 
+  db:
+    image: postgres:15-alpine
+    container_name: iot_db
+    environment:
+      POSTGRES_USER: admin_iot
+      POSTGRES_PASSWORD: super_password
+      POSTGRES_DB: iot_data
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - iot_networks
+
+  # 4. Backend Web (L'API dévelopée par notre équipe)
+  web-backend:
+    build: ./backend # Pointe vers le dossier contenatn le Dockerfile du Dev Web
+    container_name: node_backend
+    environment:
+      - DB_HOST=db
+      - DB_USER=admin_iot
+      - DB_PASS=super_password
+      - MQTT_BROKER_URL=mqtt://mqtt-broker:1883
+    depends_on:
+      - db
+      - mqtt-broker
+    networks:
+      - iot_network
+
+# Déclaration des réseaux virtuels et volumes persistants
+networks:
+  iot_network:
+    driver: bridge
+
+volumes:
+  db_data:
+
