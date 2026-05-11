@@ -1,21 +1,39 @@
 import express from 'express';
 import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
-import mqttClient from '../config/mqtt.js';
-
-mqttClient.on('message', (topic, message) => {
-    if (topic === 'ephec/equipeB/badge') {
-        const cardId = message.toString();
-        console.log(`📡 [MQTT] Badge capté : ${cardId}`);
-        lastUnknownBadge = cardId;
-    }
-});
+import mqttClient from '../config/mqtt.ts';
 
 let lastUnknownBadge: string | null = null;
 
-export const projetController = {
+mqttClient.on('message', async (topic, message) => {
+    if (topic !== 'rfid/scan') return;
 
-    
-   
+    let cardId: string;
+    try {
+        const data = JSON.parse(message.toString());
+        cardId = String(data.uid).toUpperCase().trim();
+    } catch {
+        return;
+    }
+    console.log(`📡 [MQTT] Badge capté : ${cardId}`);
+
+    const user = await User.findOne({ where: { id_carte: cardId } });
+    const responseTopic = `rfid/response/${cardId}`;
+
+    if (user) {
+        user.inside = !user.inside;
+        await user.save();
+        console.log(`🔄 ${user.Username} → inside: ${user.inside}`);
+        const response = { status: 'ok', ok: user.inside, name: user.Username, uid: cardId };
+        mqttClient.publish(responseTopic, JSON.stringify(response), { qos: 1 });
+    } else {
+        lastUnknownBadge = cardId;
+        console.log(`❓ Badge inconnu, en attente d'assignation : ${cardId}`);
+        const response = { status: 'pending', uid: cardId };
+        mqttClient.publish(responseTopic, JSON.stringify(response), { qos: 1 });
+    }
+});
+
+export const projetController = {
    
     assignCard: async (req: express.Request, res: express.Response) => {
         const { username } = req.body;
@@ -26,8 +44,9 @@ export const projetController = {
 
         try {
             const newUser = await User.create({
-                username: username,
-                cardId: lastUnknownBadge 
+                Username: username,
+                id_carte: lastUnknownBadge,
+                inside: false
             });
 
             console.log(`✅ Utilisateur ${username} créé avec le badge ${lastUnknownBadge}`);

@@ -1,14 +1,13 @@
 import mqtt from 'mqtt';
 
-// Connexion au broker (exemple public gratuit)
-const client = mqtt.connect('mqtt://broker.hivemq.com');
+const client = mqtt.connect('mqtt://127.0.0.1:1883');
 
 client.on('connect', () => {
     console.log('✅ Connecté au broker MQTT');
     // On s'abonne au topic où l'électronique envoie les badges
-    client.subscribe('ephec/equipeB/badge', (err) => {
+    client.subscribe('rfid/scan', (err) => {
         if (!err) {
-            console.log('📡 Abonné au topic : ephec/equipeB/badge');
+            console.log('📡 Abonné au topic : rfid/scan');
         }
     });
 });
