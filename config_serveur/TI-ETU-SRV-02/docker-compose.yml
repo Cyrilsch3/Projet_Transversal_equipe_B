@@ -28,39 +28,23 @@ services:
     networks:
       - iot_network
 
-  # 3. Base de données (ex: PostgreSQL) - Pour le Web (TODO: Remplacer par Sqlite) 
-  db:
-    image: postgres:15-alpine
-    container_name: iot_db
-    environment:
-      POSTGRES_USER: admin_iot
-      POSTGRES_PASSWORD: super_password
-      POSTGRES_DB: iot_data
-    volumes:
-      - db_data:/var/lib/postgresql/data
-    networks:
-      - iot_networks
-
-  # 4. Backend Web (L'API dévelopée par notre équipe)
+  # 3. Backend Web (L'API dévelopée par notre équipe)
   web-backend:
     build: ./backend # Pointe vers le dossier contenatn le Dockerfile du Dev Web
     container_name: node_backend
     environment:
-      - DB_HOST=db
-      - DB_USER=admin_iot
-      - DB_PASS=super_password
       - MQTT_BROKER_URL=mqtt://mqtt-broker:1883
+      # TODO: Ajouter les variables spécifique aux backend si nécessaire ici
+    volumes:
+      # ! On monte un dossier local "./data" dans le conteneur pour que le fichier SQLite (ex: database.sqlite) ne soit pas supprimé
+      - ./data:/usr/src/app/data
     depends_on:
       - db
       - mqtt-broker
     networks:
       - iot_network
 
-# Déclaration des réseaux virtuels et volumes persistants
+# Déclaration des réseaux virtuels
 networks:
   iot_network:
     driver: bridge
-
-volumes:
-  db_data:
-
