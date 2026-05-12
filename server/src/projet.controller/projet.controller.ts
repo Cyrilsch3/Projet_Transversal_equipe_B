@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
 import mqttClient from '../config/mqtt.ts';
+import Log from '../projet.modele/projet.Log.ts';
 
 let lastUnknownBadge: string | null = "bbdhgzd";
 
@@ -87,5 +88,15 @@ export const projetController = {
         } catch (error) {
             res.status(500).json({ message: "Erreur lors de la récupération des présents." });
         }
-    }
+    },
+    getLogs: async (req: express.Request, res: express.Response) => {
+        try {
+            const logs = await Log.findAll({
+                order: [['timestamp', 'DESC']],
+            });
+            res.status(200).json(logs);
+        } catch (error) {
+            res.status(500).json({ message: "Erreur lors de la récupération des logs." });
+        }
+    },
 };
