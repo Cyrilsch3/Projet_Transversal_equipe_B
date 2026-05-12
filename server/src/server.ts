@@ -1,9 +1,12 @@
 import express from 'express';
+import cors from 'cors';
 import sequelize from './config/db.ts';
 import userRoutes from './projet.routes/routes.ts';
-import './config/mqtt.js'; 
+import './config/broker.ts';
+import './config/mqtt.js';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 const port = 3000;
 
