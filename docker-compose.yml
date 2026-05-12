@@ -1,0 +1,29 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    network_mode: host
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto_data:/mosquitto/data
+    restart: unless-stopped
+
+  server:
+    image: ${DOCKERHUB_USERNAME}/projet-server:latest
+    network_mode: host
+    volumes:
+      - /opt/projet/database.sqlite:/app/database.sqlite
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    depends_on:
+      - mosquitto
+
+  client:
+    image: ${DOCKERHUB_USERNAME}/projet-client:latest
+    network_mode: host
+    restart: unless-stopped
+    depends_on:
+      - server
+
+volumes:
+  mosquitto_data:
