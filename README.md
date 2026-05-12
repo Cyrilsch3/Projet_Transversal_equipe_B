@@ -19,7 +19,6 @@ Ce projet est divisé en plusieurs composants :
 * `/mosquitto` : Fichiers de configuration pour le broker MQTT.
 * `/` *(racine)* : Fichiers de configuration globaux (Docker Compose, GitHub Actions).
 
-*(Note : Le code MicroPython du Raspberry Pi Pico W peut être ajouté dans un dossier `/pico` ou `/hardware` si ce n'est pas déjà fait).*
 
 ## 🚀 Installation et Lancement (avec Docker)
 
