@@ -1,14 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import api from '../services/api'
 import './Home.css'
 
 const TEAM_NAME = "Équipe B"
-const PLACEHOLDER = {
-  presents: [],
-}
+const POLL_INTERVAL = 3000
 
 function Home() {
-  const { presents } = PLACEHOLDER
+  const [presents, setPresents] = useState([])
+
+  useEffect(() => {
+    async function fetchPresent() {
+      try {
+        const { data } = await api.get('/present')
+        setPresents(data)
+      } catch {
+        // silencieux, on garde l'état précédent
+      }
+    }
+
+    fetchPresent()
+    const timer = setInterval(fetchPresent, POLL_INTERVAL)
+    return () => clearInterval(timer)
+  }, [])
 
   const [assignOpen, setAssignOpen]   = useState(false)
   const [usersOpen, setUsersOpen]     = useState(false)
@@ -77,7 +90,7 @@ function Home() {
                 <tr>
                   <th>#</th>
                   <th>Nom</th>
-                  <th>Présent?</th>
+                  <th>ID Carte</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,8 +102,8 @@ function Home() {
                   presents.map((p, i) => (
                     <tr key={p.id}>
                       <td>{i + 1}</td>
-                      <td>{p.nom}</td>
-                      <td>{p.heure}</td>
+                      <td>{p.Username}</td>
+                      <td>{p.id_carte}</td>
                     </tr>
                   ))
                 )}
@@ -175,8 +188,8 @@ function Home() {
                       users.map((u, i) => (
                         <tr key={u.id}>
                           <td>{i + 1}</td>
-                          <td>{u.username}</td>
-                          <td className="card-id">{u.cardId}</td>
+                          <td>{u.Username}</td>
+                          <td className="card-id">{u.id_carte}</td>
                           <td>
                             <button
                               className="btn-delete"
