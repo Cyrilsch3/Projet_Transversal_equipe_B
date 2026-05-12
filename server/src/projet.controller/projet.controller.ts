@@ -2,7 +2,7 @@ import express from 'express';
 import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
 import mqttClient from '../config/mqtt.ts';
 
-let lastUnknownBadge: string | null;
+let lastUnknownBadge: string | null = "bbdhgzd";
 
 mqttClient.on('message', async (topic, message) => {
     if (topic !== 'rfid/scan') return;
