@@ -1,0 +1,19 @@
+[DEFAULT]
+# Les adresses IP du reseau interne qu'il ne faut JAMAIS bannir
+ignoreip = 127.0.0.1/8 10.1.0.0/16
+
+# Temps de bannissement (en secondes) - Ici : 1 heure
+bantime  = 3600
+
+# Fenetre de temps pour comptabiliser les erreurs (en secondes) - Ici : 10 minutes
+findtime  = 600
+
+# Nombre d'essais maximum avant le ban
+maxretry = 3
+
+[sshd]
+# On active la prison pour le service SSH
+enabled = true
+port    = ssh
+logpath = %(sshd_log)s
+backend = %(sshd_backend)s

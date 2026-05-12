@@ -1,0 +1,17 @@
+$TTL    604800
+@       IN      SOA     ns-01.startup.ephec-ti.be. admin.startup.ephec-ti.be. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+; Serveurs de noms (NS)
+@       IN      NS      ns-01.startup.ephec-ti.be.
+
+; Enregistrements PTR (Pointeurs IP vers Noms)
+11      IN      PTR     ns-01.startup.ephec-ti.be.
+12      IN      PTR     log-01.startup.ephec-ti.be.
+13      IN      PTR     bh-01.startup.ephec-ti.be.
+14      IN      PTR     ntp-01.startup.ephec-ti.be.
+50      IN      PTR     proxmox.startup.ephec-ti.be.

@@ -1,0 +1,12 @@
+// Zone Directe (Noms -> IP)
+zone "startup.ephec-ti.be {
+    type master;
+    file "/etc/bind/db.startup.ephec-ti.be";
+};
+
+// Zone Inverse (IP -> Noms) pour le reseau 10.1.20.0/24
+// Attention : Ici il faut ecrire l'IP a l'envers
+zone "20.1.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.10.1.20";
+};
