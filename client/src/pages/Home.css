@@ -366,3 +366,112 @@
   cursor: not-allowed;
 }
 
+/* ── RFID Toast ─────────────────────────────────────────── */
+
+.rfid-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 340px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+  z-index: 9999;
+  animation: toastSlideIn 0.3s ease;
+}
+
+.rfid-toast--pending {
+  border-left: 4px solid #BA7517;
+}
+
+.rfid-toast--enter {
+  border-left: 4px solid #3B6D11;
+}
+
+.rfid-toast--exit {
+  border-left: 4px solid #185FA5;
+}
+
+.rfid-toast-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.rfid-toast-close:hover {
+  color: #333;
+}
+
+.rfid-toast-body {
+  padding-right: 1rem;
+}
+
+.rfid-toast-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0 0 4px;
+  color: #1a1a1a;
+}
+
+.rfid-toast-sub {
+  font-size: 0.83rem;
+  color: #666;
+  margin: 0 0 6px;
+  line-height: 1.5;
+}
+
+.rfid-toast-uid {
+  font-size: 0.75rem;
+  color: #aaa;
+  font-family: monospace;
+  margin: 0;
+}
+
+.rfid-toast-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+
+.rfid-toast-timer {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+.rfid-toast-btn {
+  background: #BA7517;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.rfid-toast-btn:hover {
+  background: #9a6010;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
