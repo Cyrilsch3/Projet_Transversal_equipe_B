@@ -1,7 +1,7 @@
 import express from 'express';
 import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
 import mqttClient from '../config/mqtt.ts';
-import Log from '../projet.modele/projet.Log.ts';
+import Log from '../projet.modele/projet.logs.ts';
 
 let lastUnknownBadge: string | null = "bbdhgzd";
 

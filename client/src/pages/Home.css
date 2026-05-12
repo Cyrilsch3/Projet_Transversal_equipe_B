@@ -475,3 +475,16 @@
     transform: translateY(0);
   }
 }
+.history-btn {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.history-btn:hover {
+  background: #f0f0f0;
+}

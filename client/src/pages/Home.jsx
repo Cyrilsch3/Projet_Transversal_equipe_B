@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import api from '../services/api'
 import './Home.css'
 import mqtt from 'mqtt'
+import { useNavigate } from 'react-router-dom'
+
+// En haut du composant :
 
 const TEAM_NAME = "Équipe B"
 const POLL_INTERVAL = 3000
@@ -40,6 +43,7 @@ function Home() {
   const [remaining, setRemaining] = useState(10)
   const toastTimer  = useRef(null)
   const countdownTimer = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const client = mqtt.connect(BROKER_URL)
@@ -290,6 +294,7 @@ function Home() {
                             >
                               {deletingId === u.id ? '…' : 'Supprimer'}
                             </button>
+                            <button className="history-btn" onClick={() => navigate('/history')}> 📋 Historique</button>
                           </td>
                         </tr>
                       ))
