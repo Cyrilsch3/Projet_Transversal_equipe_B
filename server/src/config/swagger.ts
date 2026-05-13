@@ -53,3 +53,4 @@ export function setupSwagger(app: Express): void {
     }));
     console.log('📚 Swagger disponible sur http://localhost:3000/api/docs');
 }
+//commit
