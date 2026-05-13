@@ -10,7 +10,7 @@ import mqtt from 'mqtt'
 
 const TEAM_NAME = "Équipe B"
 const POLL_INTERVAL = 3000
-const BROKER_URL = import.meta.env.VITE_MQTT_URL ?? `ws://${window.location.hostname}:9001`
+const BROKER_URL = import.meta.env.VITE_MQTT_URL ?? 'ws://localhost:9001'
 const TOAST_DURATION = 10000
 
 function Home() {
@@ -322,4 +322,3 @@ function Home() {
 }
 
 export default Home
-//commit
