@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { projetController } from '../projet.controller/projet.controller.ts';
 import { authController } from '../projet.controller/auth.controller.ts';
-import { authMiddleware } from '../config/auth.ts';
+import { authMiddleware } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -196,3 +196,4 @@ router.get('/present', projetController.getPresent);
 router.get('/logs', projetController.getLogs);
 
 export default router;
+//commit
