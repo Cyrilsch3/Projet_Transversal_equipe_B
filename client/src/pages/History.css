@@ -1,0 +1,123 @@
+.history-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 2rem;
+    background: #f5f5f5;
+}
+
+.history-dashboard {
+    width: 100%;
+    max-width: 900px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.back-btn {
+    background: none;
+    border: 1px solid #ddd;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #f0f0f0;
+    color: #111;
+}
+
+.history-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.history-body {
+    padding: 1.5rem 2rem;
+}
+
+.history-loading {
+    text-align: center;
+    color: #aaa;
+    padding: 2rem;
+}
+
+.history-table-wrapper {
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.history-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    background: #f8f8f8;
+    color: #888;
+    font-weight: 500;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid #eee;
+}
+
+.history-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+}
+
+.history-table tr:last-child td {
+    border-bottom: none;
+}
+
+.history-table tr:hover td {
+    background: #fafafa;
+}
+
+.table-empty {
+    text-align: center;
+    color: #aaa;
+    padding: 2rem !important;
+}
+
+.card-id {
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: #888;
+}
+
+.action-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.action-badge--entree {
+    background: #eaf3de;
+    color: #3B6D11;
+}
+
+.action-badge--sortie {
+    background: #e6f1fb;
+    color: #185FA5;
+}
