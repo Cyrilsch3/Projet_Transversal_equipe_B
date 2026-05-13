@@ -28,3 +28,5 @@ Aedes.createBroker().then((broker) => {
         console.log(`❌ Client MQTT déconnecté : ${client.id}`);
     });
 });
+
+//commit
