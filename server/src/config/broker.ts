@@ -15,7 +15,7 @@ Aedes.createBroker().then((broker) => {
 
     // Serveur WebSocket pour le frontend (navigateur)
     const httpServer = createHttpServer();
-    ws.createServer({ server: httpServer }, broker.handle.bind(broker));
+    ws.createServer({ server: httpServer }, broker.handle.bind(broker) as any);
     httpServer.listen(WS_PORT, () => {
         console.log(`🌐 Broker MQTT WebSocket démarré sur le port ${WS_PORT}`);
     });
