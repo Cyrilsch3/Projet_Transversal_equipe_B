@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README — Groupe B</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #111118;
+            --border: #1e1e2e;
+            --accent: #00ff88;
+            --accent2: #00aaff;
+            --accent3: #ff6b35;
+            --text: #e0e0f0;
+            --muted: #666680;
+            --code-bg: #0d0d1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Syne', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HEADER */
+        header {
+            padding: 5rem 0 3rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.1s;
+        }
+
+        .badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .badge-green {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .badge-blue {
+            background: rgba(0, 170, 255, 0.1);
+            color: var(--accent2);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+
+        .badge-orange {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent3);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.2s;
+        }
+
+        h1 span.group {
+            color: var(--accent);
+        }
+
+        h1 span.label {
+            color: var(--muted);
+            font-size: 0.4em;
+            display: block;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-bottom: 0.3em;
+        }
+
+        .subtitle {
+            margin-top: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.3s;
+        }
+
+        .subtitle strong {
+            color: var(--text);
+        }
+
+        /* SECTIONS */
+        main {
+            padding: 4rem 0;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        section:nth-child(1) {
+            animation-delay: 0.4s;
+        }
+
+        section:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        section:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        section:nth-child(4) {
+            animation-delay: 0.7s;
+        }
+
+        section:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent2);
+            margin: 1.5rem 0 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.05em;
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* CARDS */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .card:hover {
+            background: #16161f;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card h3 {
+            margin: 0 0 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .card p {
+            font-size: 0.82rem;
+            margin: 0;
+        }
+
+        /* CODE BLOCKS */
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 4px;
+            padding: 1.25rem 1.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--accent);
+            line-height: 1.7;
+        }
+
+        pre code {
+            color: var(--text);
+        }
+
+        .comment {
+            color: var(--muted);
+        }
+
+        .kw {
+            color: var(--accent2);
+        }
+
+        .str {
+            color: var(--accent);
+        }
+
+        .num {
+            color: var(--accent3);
+        }
+
+        /* TEAM TABLE */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .member {
+            background: var(--surface);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .member-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .member-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .member-role.dev {
+            color: var(--accent2);
+        }
+
+        .member-role.elec {
+            color: var(--accent3);
+        }
+
+        .member-role.admin {
+            color: var(--accent);
+        }
+
+        /* NETWORK TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: var(--code-bg);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ip {
+            color: var(--accent);
+        }
+
+        .role-cell {
+            color: var(--muted);
+        }
+
+        /* FLOW */
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .flow-step {
+            padding: 1rem 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .flow-step .step-label {
+            color: var(--muted);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .flow-step .step-name {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
+            opacity: 0.5;
+        }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="badge-row">
+                <span class="badge badge-green">Node.js + TypeScript</span>
+                <span class="badge badge-blue">MQTT / Aedes</span>
+                <span class="badge badge-orange">RFID</span>
+                <span class="badge badge-green">Docker</span>
+                <span class="badge badge-blue">SQLite</span>
+            </div>
+            <h1>
+                <span class="label">Projet Transversal</span>
+                Groupe<span class="group"> B</span>
+            </h1>
+            <p class="subtitle">
+                Système de gestion de badges <strong>RFID</strong> — scan, identification et attribution en temps
+                réel.<br>
+                Communication entre les équipes via broker <strong>MQTT</strong> embarqué.
+            </p>
+        </header>
+
+        <main>
+
+            <!-- ARCHITECTURE -->
+            <section>
+                <div class="section-label">01 — Architecture</div>
+                <h2>Vue d'ensemble</h2>
+                <div class="flow">
+                    <div class="flow-step">
+                        <div class="step-label">Élec (.12)</div>
+                        <div class="step-name">Lecteur RFID</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-label">MQTT Topic</div>
+                        <div class="step-name">rfid/scan</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-label">Backend (.11)</div>
+                        <div class="step-name">Broker + API</div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-label">Frontend</div>
+                        <div class="step-name">Interface</div>
+                    </div>
+                </div>
+                <p>Le backend embarque son propre broker <strong>Aedes</strong> — aucune installation externe de
+                    Mosquitto requise. La carte RFID est scannée côté élec, l'UID est publié sur <code>rfid/scan</code>,
+                    et le backend le traite puis répond sur <code>rfid/response</code>.</p>
+            </section>
+
+            <!-- RÉSEAU -->
+            <section>
+                <div class="section-label">02 — Réseau</div>
+                <h2>Configuration WiFi</h2>
+                <p>Tous les membres doivent être connectés au point d'accès <code>Groupe B</code> avec les IPs suivantes
+                    :</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Machine</th>
+                            <th>IP</th>
+                            <th>Rôle</th>
+                            <th>Port exposé</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Backend / Dev</td>
+                            <td class="ip">10.1.40.11</td>
+                            <td class="role-cell">Broker MQTT + API REST</td>
+                            <td class="ip">1883 / 3000</td>
+                        </tr>
+                        <tr>
+                            <td>Élec</td>
+                            <td class="ip">10.1.40.12</td>
+                            <td class="role-cell">Lecteur RFID (Pico)</td>
+                            <td class="role-cell">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- INSTALLATION -->
+            <section>
+                <div class="section-label">03 — Installation</div>
+                <h2>Lancer le projet</h2>
+
+                <h3>// Backend</h3>
+                <pre><code><span class="comment"># Cloner le repo et aller dans le dossier server</span>
+cd server
+npm install
+npm run dev</code></pre>
+
+                <h3>// Frontend</h3>
+                <pre><code>cd client
+npm install
+npm run dev</code></pre>
+
+                <h3>// Docker (production)</h3>
+                <pre><code><span class="comment"># Créer un fichier .env à la racine</span>
+DOCKERHUB_USERNAME=<span class="str">votre_username</span>
+
+<span class="comment"># Builder les images</span>
+docker build -t $DOCKERHUB_USERNAME/projet-server:latest ./server
+docker build -t $DOCKERHUB_USERNAME/projet-client:latest ./client
+
+<span class="comment"># Pusher sur Docker Hub</span>
+docker push $DOCKERHUB_USERNAME/projet-server:latest
+docker push $DOCKERHUB_USERNAME/projet-client:latest
+
+<span class="comment"># Déployer</span>
+docker-compose up -d</code></pre>
+            </section>
+
+            <!-- MQTT -->
+            <section>
+                <div class="section-label">04 — MQTT</div>
+                <h2>Topics & Messages</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon">📡</div>
+                        <h3>rfid/scan</h3>
+                        <p>Publié par la machine élec lors d'un scan de badge.</p>
+                        <pre><code>{ <span class="str">"uid"</span>: <span class="str">"A1B2C3D4"</span> }</code></pre>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">✅</div>
+                        <h3>rfid/response</h3>
+                        <p>Réponse du backend après vérification en base de données.</p>
+                        <pre><code>{ <span class="str">"status"</span>: <span class="kw">true</span> }</code></pre>
+                    </div>
+                </div>
+                <p style="margin-top:1rem;">Les badges inconnus sont stockés temporairement dans
+                    <code>inconnueBadge</code> jusqu'à attribution via le frontend.</p>
+            </section>
+
+            <!-- ÉQUIPE -->
+            <section>
+                <div class="section-label">05 — Équipe</div>
+                <h2>Membres du groupe</h2>
+                <div class="team-grid">
+                    <div class="member">
+                        <div class="member-name">À compléter</div>
+                        <div class="member-role dev">Dev — Backend</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">À compléter</div>
+                        <div class="member-role dev">Dev — Frontend</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">À compléter</div>
+                        <div class="member-role elec">Électronique</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">À compléter</div>
+                        <div class="member-role admin">Admin / Infra</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer>
+            <span>Groupe B — Projet Transversal</span>
+            <span>README v1.0 — à compléter</span>
+        </footer>
+    </div>
+
+</body>
+
+</html>
