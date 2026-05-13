@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import sequelize from './config/db.ts';
 import userRoutes from './projet.routes/routes.ts';
 import User from './projet.modele/projet.User.ts';
+import { setupSwagger } from './config/swagger.ts';
 import './config/broker.ts';
 import './config/mqtt.js';
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 const port = 3000;
 
+setupSwagger(app);
 app.use('/api', userRoutes);
 
 sequelize.sync({ alter: true })

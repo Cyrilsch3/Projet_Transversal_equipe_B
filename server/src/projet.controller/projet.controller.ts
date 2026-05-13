@@ -1,5 +1,6 @@
 import express from 'express';
-import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
+import User from '../projet.modele/projet.User.ts';
+import Log from '../projet.modele/projet.logs.ts';
 import mqttClient from '../config/mqtt.ts';
 
 let lastUnknownBadge: string | null;
@@ -22,6 +23,13 @@ mqttClient.on('message', async (topic, message) => {
     if (user) {
         user.inside = !user.inside;
         await user.save();
+
+        await Log.create({
+            username: user.Username,
+            id_carte: cardId,
+            action: user.inside ? 'entree' : 'sortie',
+        });
+
         console.log(`🔄 ${user.Username} → inside: ${user.inside}`);
         const response = { status: 'ok', ok: user.inside, name: user.Username, uid: cardId };
         mqttClient.publish(responseTopic, JSON.stringify(response), { qos: 1 });

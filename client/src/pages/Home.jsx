@@ -4,13 +4,13 @@ import { useState, useEffect, useRef } from 'react'
 import api from '../services/api'
 import './Home.css'
 import mqtt from 'mqtt'
-import { useNavigate } from 'react-router-dom'
 
-// En haut du composant :
+
+
 
 const TEAM_NAME = "Équipe B"
 const POLL_INTERVAL = 3000
-const BROKER_URL = 'ws://10.1.40.11:9001'
+const BROKER_URL = import.meta.env.VITE_MQTT_URL ?? 'ws://localhost:9001'
 const TOAST_DURATION = 10000
 
 function Home() {
@@ -46,7 +46,6 @@ function Home() {
   const [remaining, setRemaining] = useState(10)
   const toastTimer  = useRef(null)
   const countdownTimer = useRef(null)
-  const navigate = useNavigate()
 
   useEffect(() => {
     const client = mqtt.connect(BROKER_URL)
