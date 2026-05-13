@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+
 import api from '../services/api'
 import './Home.css'
+import mqtt from 'mqtt'
+import { useNavigate } from 'react-router-dom'
+
+// En haut du composant :
 
 const TEAM_NAME = "Équipe B"
 const POLL_INTERVAL = 3000
+const BROKER_URL = 'ws://10.1.40.11:9001'
+const TOAST_DURATION = 10000
 
 function Home() {
   const navigate = useNavigate()
@@ -34,6 +41,62 @@ function Home() {
   const [usersLoading, setUsersLoading] = useState(false)
   const [deletingId, setDeletingId]   = useState(null)
 
+  // --- MQTT Toast ---
+  const [toast, setToast]     = useState(null)
+  const [remaining, setRemaining] = useState(10)
+  const toastTimer  = useRef(null)
+  const countdownTimer = useRef(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const client = mqtt.connect(BROKER_URL)
+
+    client.on('connect', () => {
+      client.subscribe('rfid/response/#')
+    })
+
+    client.on('message', (_, message) => {
+      const data = JSON.parse(message.toString())
+
+      // On vide les timers précédents
+      clearTimeout(toastTimer.current)
+      clearInterval(countdownTimer.current)
+
+      setToast(data)
+
+      if (data.status !== 'pending') {
+        // Badge connu : on dismiss automatiquement après 10s
+        toastTimer.current = setTimeout(() => setToast(null), TOAST_DURATION)
+      } else {
+        // Badge inconnu : countdown de 10s
+        setRemaining(10)
+        countdownTimer.current = setInterval(() => {
+          setRemaining(r => {
+            if (r <= 1) {
+              clearInterval(countdownTimer.current)
+              setToast(null)
+              return 10
+            }
+            return r - 1
+          })
+        }, 1000)
+      }
+    })
+
+    return () => {
+      client.end()
+      clearTimeout(toastTimer.current)
+      clearInterval(countdownTimer.current)
+    }
+  }, [])
+
+  function dismissToast() {
+    clearTimeout(toastTimer.current)
+    clearInterval(countdownTimer.current)
+    setToast(null)
+  }
+
+  // --- Handlers existants ---
   async function handleAssign(e) {
     e.preventDefault()
     if (!username.trim()) return
@@ -135,6 +198,40 @@ function Home() {
 
       </div>
 
+      {/* Toast MQTT — Badge inconnu */}
+      {toast?.status === 'pending' && (
+        <div className="rfid-toast rfid-toast--pending">
+          <button className="rfid-toast-close" onClick={dismissToast}>✕</button>
+          <div className="rfid-toast-body">
+            <p className="rfid-toast-title">Badge non reconnu</p>
+            <p className="rfid-toast-sub">Ce badge n'est associé à aucun utilisateur. Voulez-vous créer un compte ?</p>
+            <p className="rfid-toast-uid">UID : {toast.uid}</p>
+          </div>
+          <div className="rfid-toast-footer">
+            <span className="rfid-toast-timer">Disparaît dans {remaining}s</span>
+            <button
+              className="rfid-toast-btn"
+              onClick={() => { dismissToast(); setAssignOpen(true) }}
+            >
+              + Ajouter un user
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Toast MQTT — Badge connu (entrée / sortie) */}
+      {toast?.status === 'ok' && (
+        <div className={`rfid-toast ${toast.ok ? 'rfid-toast--enter' : 'rfid-toast--exit'}`}>
+          <button className="rfid-toast-close" onClick={dismissToast}>✕</button>
+          <div className="rfid-toast-body">
+            <p className="rfid-toast-title">
+              {toast.ok ? `${toast.name} est entré` : `${toast.name} est sorti`}
+            </p>
+            <p className="rfid-toast-uid">UID : {toast.uid}</p>
+          </div>
+        </div>
+      )}
+
       {/* Modal — Assigner une carte */}
       {assignOpen && (
         <div className="modal-overlay" onClick={() => setAssignOpen(false)}>
@@ -208,6 +305,7 @@ function Home() {
                             >
                               {deletingId === u.id ? '…' : 'Supprimer'}
                             </button>
+                            <button className="history-btn" onClick={() => navigate('/history')}> 📋 Historique</button>
                           </td>
                         </tr>
                       ))
@@ -219,6 +317,7 @@ function Home() {
           </div>
         </div>
       )}
+
     </div>
   )
 }
