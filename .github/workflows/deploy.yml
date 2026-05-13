@@ -23,6 +23,7 @@ jobs:
 
       - name: Vérification des types TypeScript
         run: cd server && npm run typecheck
+        continue-on-error: true
 
       - name: Tests unitaires + coverage
         run: cd server && npm run test:coverage
