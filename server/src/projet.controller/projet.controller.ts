@@ -61,7 +61,7 @@ export const projetController = {
     
     getAllUsers: async (req: express.Request, res: express.Response) => {
         try {
-            const users = await User.findAll();
+            const users = await User.findAll({ where: { isAdmin: false } });
             res.status(200).json(users);
         } catch (error) {
             res.status(500).json({ message: "Erreur lors de la récupération." });
