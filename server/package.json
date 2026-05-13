@@ -4,8 +4,10 @@
     "start": "tsx src/server.ts"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.6.2",
     "@types/validator": "^13.15.10",
     "ts-node": "^10.9.2",
@@ -14,8 +16,10 @@
   },
   "dependencies": {
     "aedes": "^1.0.2",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mqtt": "^5.15.1",
     "sequelize": "^6.37.8",
     "socket.io": "^4.8.3",

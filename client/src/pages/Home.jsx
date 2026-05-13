@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
+
 import api from '../services/api'
 import './Home.css'
 import mqtt from 'mqtt'
@@ -12,6 +14,7 @@ const BROKER_URL = 'ws://10.1.40.11:9001'
 const TOAST_DURATION = 10000
 
 function Home() {
+  const navigate = useNavigate()
   const [presents, setPresents] = useState([])
 
   useEffect(() => {
@@ -123,6 +126,11 @@ function Home() {
     }
   }
 
+  function handleLogout() {
+    localStorage.removeItem('token')
+    navigate('/login', { replace: true })
+  }
+
   async function handleDelete(id) {
     setDeletingId(id)
     try {
@@ -139,9 +147,12 @@ function Home() {
 
         <header className="dashboard-header">
           <span className="team-name">{TEAM_NAME}</span>
-          <div className="presence-counter">
-            <span className="counter-value">{presents.length}</span>
-            <span className="counter-label">dans la pièce</span>
+          <div className="header-right">
+            <div className="presence-counter">
+              <span className="counter-value">{presents.length}</span>
+              <span className="counter-label">dans la pièce</span>
+            </div>
+            <button className="logout-btn" onClick={handleLogout}>Déconnexion</button>
           </div>
         </header>
 

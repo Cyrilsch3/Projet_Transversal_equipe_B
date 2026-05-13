@@ -1,9 +1,8 @@
 import express from 'express';
 import User from '../projet.modele/projet.User.ts'; // Imagine que ton modèle s'appelle User
 import mqttClient from '../config/mqtt.ts';
-import Log from '../projet.modele/projet.logs.ts';
 
-let lastUnknownBadge: string | null = "bbdhgzd";
+let lastUnknownBadge: string | null;
 
 mqttClient.on('message', async (topic, message) => {
     if (topic !== 'rfid/scan') return;
@@ -62,7 +61,7 @@ export const projetController = {
     
     getAllUsers: async (req: express.Request, res: express.Response) => {
         try {
-            const users = await User.findAll();
+            const users = await User.findAll({ where: { isAdmin: false } });
             res.status(200).json(users);
         } catch (error) {
             res.status(500).json({ message: "Erreur lors de la récupération." });
@@ -88,6 +87,7 @@ export const projetController = {
         } catch (error) {
             res.status(500).json({ message: "Erreur lors de la récupération des présents." });
         }
+
     },
     getLogs: async (req: express.Request, res: express.Response) => {
         try {
