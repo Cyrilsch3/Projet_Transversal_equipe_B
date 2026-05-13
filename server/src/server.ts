@@ -35,3 +35,4 @@ sequelize.sync({ alter: true })
     .catch((error) => {
         console.error("❌ Erreur lors de la synchronisation :", error);
     });
+//commit
