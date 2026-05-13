@@ -1,20 +1,24 @@
-# A mettre dans /etc/bind/named.conf.options
 acl "trusted" {
-    10.1.0.0/16;   # On autorise tout le réseau interne
+    10.1.0.0/16;
     127.0.0.0/8;
 };
 
 options {
     directory "/var/cache/bind";
+
+    listen-on { any; };
+    listen-on-v6 { any; };
+
     recursion yes;
-    allow-query { trusted; };
-    
-    # C'est ici qu'on fait le pont avec Internet
+    allow-query     { trusted; };
+    allow-recursion { trusted; };
+
     forwarders {
         1.1.1.1;
         8.8.8.8;
     };
-    
+    forward only;
+
     dnssec-validation auto;
-    listen-on-v6 { any; };
+    auth-nxdomain no;
 };

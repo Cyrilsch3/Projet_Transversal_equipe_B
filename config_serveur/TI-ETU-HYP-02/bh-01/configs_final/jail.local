@@ -1,0 +1,15 @@
+[DEFAULT]
+# On n'ignore jamais l'IP locale et ton réseau de management
+ignoreip = 127.0.0.1/8 10.1.20.0/24
+
+[sshd]
+enabled = true
+port    = ssh
+filter  = sshd
+logpath = /var/log/auth.log
+# 3 erreurs = Ban
+maxretry = 3
+# Durée du bannissement : 1 heure
+bantime = 3600
+# Fenêtre de surveillance : 10 minutes
+findtime = 600

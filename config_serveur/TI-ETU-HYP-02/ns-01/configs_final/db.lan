@@ -1,0 +1,27 @@
+$TTL    3600
+@   IN  SOA  ns-01.lan. admin.lan. (
+                2026051202 ; Serial (YYYYMMDDNN)
+                3600       ; Refresh
+                900        ; Retry
+                604800     ; Expire
+                3600 )     ; Negative cache TTL
+
+@   IN  NS   ns-01.lan.
+
+; --- Infra serveurs ---
+ns-01    IN  A   10.1.20.9
+log-01   IN  A   10.1.20.12
+bh-01    IN  A   10.1.20.13
+ntp-01   IN  A   10.1.20.14
+entree   IN   A   10.1.20.52
+
+; --- Hyperviseurs / NAS ---
+proxmox  IN  A   10.1.1.50
+pve1     IN  A   10.1.1.51
+pve2     IN  A   10.1.1.52
+
+; --- Services / DMZ ---
+srv-02   IN  A   10.1.55.10
+
+; --- Raccourcis ---
+www      IN  CNAME srv-02
