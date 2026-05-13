@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../projet.modele/projet.User.ts';
-import { JWT_SECRET } from '../config/auth.ts';
+import { JWT_SECRET } from '../middleware/auth.js';
 
 export const authController = {
 
@@ -41,3 +41,4 @@ export const authController = {
     }
 
 };
+//commit
