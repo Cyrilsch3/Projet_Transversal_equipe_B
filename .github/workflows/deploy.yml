@@ -19,7 +19,7 @@ jobs:
           node-version: 20
 
       - name: Installer les dépendances serveur
-        run: cd server && npm ci
+        run: cd server && npm install
 
       - name: Vérification des types TypeScript
         run: cd server && npm run typecheck
