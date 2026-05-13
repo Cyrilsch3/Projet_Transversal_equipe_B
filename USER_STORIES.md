@@ -60,6 +60,24 @@ Ce document liste les fonctionnalités attendues du système de contrôle d'acc�
 * **Je veux** pouvoir créer un nouvel utilisateur ou supprimer un compte existant via le tableau de bord,
 * **Afin de** gérer facilement le cycle de vie du personnel.
 
+### US 3.4 : Connexion sécurisée (Authentification)
+* **En tant qu'** administrateur,
+* **Je veux** devoir m'authentifier avec un nom d'utilisateur et un mot de passe sur une page de connexion,
+* **Afin de** protéger l'accès aux données du personnel et à la configuration du système.
+* **Critères d'acceptation :** L'accès aux pages du tableau de bord et de l'historique est bloqué pour les visiteurs non connectés. Une erreur s'affiche si les identifiants sont incorrects.
+
+### US 3.5 : Historique des accès (Logs)
+* **En tant qu'** administrateur ou agent de sécurité,
+* **Je veux** consulter une page d'historique listant chronologiquement tous les événements de badgage (entrées et sorties),
+* **Afin de** pouvoir auditer les mouvements dans le bâtiment et vérifier l'heure de passage exacte d'un utilisateur.
+* **Critères d'acceptation :** L'interface affiche un tableau contenant le nom de l'utilisateur, l'action (entrée/sortie) et l'horodatage précis (timestamp).
+
+### US 3.6 : Gestion des permissions (Rôles)
+* **En tant que** responsable de la sécurité,
+* **Je veux** que le système distingue les simples utilisateurs des administrateurs (via un droit `isAdmin`),
+* **Afin que** seuls les employés autorisés puissent se connecter à l'interface web pour modifier les accès ou voir les logs.
+* **Critères d'acceptation :** Un utilisateur "standard" ne peut pas accéder au tableau de bord s'il essaie de se connecter.
+
 ---
 
 ## 📊 Tableau Récapitulatif
@@ -75,3 +93,6 @@ Ce document liste les fonctionnalités attendues du système de contrôle d'acc�
 | **US 3.1** | 💻 React | Admin | Consulter la liste des employés | Voir l'état de présence en direct |
 | **US 3.2** | 💻 React | Admin | Voir le dernier badge inconnu | Associer le badge à un nouveau profil |
 | **US 3.3** | 💻 React | Admin | Gérer les utilisateurs (CRUD) | Gérer le cycle de vie du personnel |
+| **US 3.4** | 💻 React | Admin | Se connecter avec mot de passe | Sécuriser l'accès à l'interface d'administration |
+| **US 3.5** | 💻 React | Admin | Consulter la page d'historique | Auditer les entrées et sorties (Logs) du bâtiment |
+| **US 3.6** | 💻 React | Admin | Avoir des rôles distincts (isAdmin) | Empêcher les utilisateurs normaux de modifier le système |
